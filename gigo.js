@@ -23,6 +23,10 @@ var exports = module.exports = __gigo = (function() {
 	};
 
 	var $func = {
+		bind: function( descriptor ) {
+			// bind multiple gigo objects together
+			return false;
+		},
 		close: function( db ) {
 			// close the specified database
 			return false;
@@ -66,6 +70,7 @@ var exports = module.exports = __gigo = (function() {
 	};
 
 	return {
+		bind: $func.bind,
 		close: $func.close,
 		config: $func.config,
 		drop: $func.drop,
