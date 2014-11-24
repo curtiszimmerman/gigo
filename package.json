@@ -1,6 +1,6 @@
 {
 	"name": "gigo",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Garbage-in-garbage-out: Soviet-style storage",
 	"main": "gigo.js",
 	"devDependencies": {

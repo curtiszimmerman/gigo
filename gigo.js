@@ -6,7 +6,7 @@
  * @author curtiszimmerman
  * @contact curtis.zimmerman@gmail.com
  * @license GPLv3
- * @version 0.0.1a
+ * @version 0.0.2a
  */
 
 /*jshint -W110 */
