@@ -9,6 +9,7 @@
  * @version 0.0.1a
  */
 
+/*jshint -W110 */
 var exports = module.exports = __gigo = (function() {
 	"use strict";
 
@@ -32,7 +33,6 @@ var exports = module.exports = __gigo = (function() {
 			admin: 'gigo:admin:',
 			data: 'gigo:data:',
 			root: 'gigo:',
-			special: 'gigo:special:'
 			groups: {}
 		},
 		settings: {
@@ -72,7 +72,7 @@ var exports = module.exports = __gigo = (function() {
 			if (typeof(key) === 'undefined') return false;
 			$redis.get($group+key, function(err, result) {
 				var data = JSON.parse(result);
-				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, data.value) : true;
+				return typeof(callback) !== 'function' ? true : err ? callback(err) : callback(null, data.value);
 			});
 			return true;
 		},
@@ -93,7 +93,7 @@ var exports = module.exports = __gigo = (function() {
 			if (typeof(list) === 'undefined') return false;
 			$redis.rpop($group+list, function(err, result) {
 				var data = JSON.parse(result);
-				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, data.value) : true;
+				return typeof(callback) !== 'function' ? true : err ? callback(err) : callback(null, data.value);
 			});
 			return false;
 		},
@@ -101,9 +101,9 @@ var exports = module.exports = __gigo = (function() {
 			// push a value on the specified list
 			if (typeof(list) === 'undefined') return false;
 			if (typeof(value) === 'undefined') return false;
-			var data = new $classes.Data($data.prefix.data+key, value);
-			$redis.rpush($group+list, JSON.stringify(data), function(err, result) {
-				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, true) : true;
+			var data = new $classes.Data($group+list, value);
+			$redis.rpush(data.key, JSON.stringify(data), function(err, result) {
+				return typeof(callback) !== 'function' ? true : err ? callback(err) : callback(null, true);
 			});
 			return false;
 		},
@@ -111,7 +111,7 @@ var exports = module.exports = __gigo = (function() {
 			// remove the specified key and associated data
 			if (typeof(key) === 'undefined') return false;
 			$redis.del($group+key, function(err, result) {
-				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, result) : true;
+				return typeof(callback) !== 'function' ? true : err ? callback(err) : callback(null, result);
 			});
 			return true;
 		},
@@ -123,9 +123,9 @@ var exports = module.exports = __gigo = (function() {
 			// set the data associated with a specified key
 			if (typeof(key) === 'undefined') return false;
 			if (typeof(value) === 'undefined') return false;
-			var data = new $classes.Data($data.prefix.data+key, value);
-			$redis.set($group+data.key, JSON.stringify(data), function(err, result) {
-				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, true) : true;
+			var data = new $classes.Data($group+key, value);
+			$redis.set(data.key, JSON.stringify(data), function(err, result) {
+				return typeof(callback) !== 'function' ? true : err ? callback(err) : callback(null, true);
 			});
 			return true;
 		},
@@ -134,16 +134,16 @@ var exports = module.exports = __gigo = (function() {
 			if (typeof(list) === 'undefined') return false;
 			$redis.lpop($group+list, function(err, result) {
 				var data = JSON.parse(result);
-				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, data.value) : true;
+				return typeof(callback) !== 'function' ? true : err ? callback(err) : callback(null, data.value);
 			});
 			return true;
 		},
 		unshift: function( list, value, callback ) {
 			if (typeof(list) === 'undefined') return false;
 			if (typeof(value) === 'undefined') return false;
-			var data = new $classes.Data($data.prefix.data+key, value);
-			$redis.lpush($group+list, JSON.stringify(data), function(err, result) {
-				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, true) : true;
+			var data = new $classes.Data($group+list, value);
+			$redis.lpush(data.key, JSON.stringify(data), function(err, result) {
+				return typeof(callback) !== 'function' ? true : err ? callback(err) : callback(null, true);
 			});
 			return true;
 		}
@@ -174,6 +174,8 @@ var exports = module.exports = __gigo = (function() {
 		push: $func.push,
 		remove: $func.remove,
 		select: $func.select,
-		set: $func.set
+		set: $func.set,
+		shift: $func.shift,
+		unshift: $func.unshift
 	};
 })();
