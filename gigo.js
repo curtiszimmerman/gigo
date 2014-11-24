@@ -32,10 +32,8 @@ var exports = module.exports = __gigo = (function() {
 			admin: 'gigo:admin:',
 			data: 'gigo:data:',
 			root: 'gigo:',
-			groups: {
-				,
-				user: 'gigo:'
-			}
+			special: 'gigo:special:'
+			groups: {}
 		},
 		settings: {
 			redis: {
@@ -72,7 +70,7 @@ var exports = module.exports = __gigo = (function() {
 		get: function( key, callback ) {
 			// get the data associated with the specified key
 			if (typeof(key) === 'undefined') return false;
-			$redis.get($data.prefix.data+key, function(err, result) {
+			$redis.get($group+key, function(err, result) {
 				var data = JSON.parse(result);
 				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, data.value) : true;
 			});
@@ -93,7 +91,7 @@ var exports = module.exports = __gigo = (function() {
 		pop: function( list, callback ) {
 			// pop an element off the specified list
 			if (typeof(list) === 'undefined') return false;
-			$redis.rpop($data.prefix.data+list, function(err, result) {
+			$redis.rpop($group+list, function(err, result) {
 				var data = JSON.parse(result);
 				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, data.value) : true;
 			});
@@ -104,7 +102,7 @@ var exports = module.exports = __gigo = (function() {
 			if (typeof(list) === 'undefined') return false;
 			if (typeof(value) === 'undefined') return false;
 			var data = new $classes.Data($data.prefix.data+key, value);
-			$redis.rpush($data.prefix.data+list, JSON.stringify(data), function(err, result) {
+			$redis.rpush($group+list, JSON.stringify(data), function(err, result) {
 				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, true) : true;
 			});
 			return false;
@@ -112,7 +110,7 @@ var exports = module.exports = __gigo = (function() {
 		remove: function( key, callback ) {
 			// remove the specified key and associated data
 			if (typeof(key) === 'undefined') return false;
-			$redis.del($data.prefix.data+key, function(err, result) {
+			$redis.del($group+key, function(err, result) {
 				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, result) : true;
 			});
 			return true;
@@ -126,7 +124,7 @@ var exports = module.exports = __gigo = (function() {
 			if (typeof(key) === 'undefined') return false;
 			if (typeof(value) === 'undefined') return false;
 			var data = new $classes.Data($data.prefix.data+key, value);
-			$redis.set(data.key, JSON.stringify(data), function(err, result) {
+			$redis.set($group+data.key, JSON.stringify(data), function(err, result) {
 				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, true) : true;
 			});
 			return true;
@@ -134,7 +132,7 @@ var exports = module.exports = __gigo = (function() {
 		shift: function( list, callback ) {
 			// shift element off list and return it
 			if (typeof(list) === 'undefined') return false;
-			$redis.lpop($data.prefix.data+list, function(err, result) {
+			$redis.lpop($group+list, function(err, result) {
 				var data = JSON.parse(result);
 				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, data.value) : true;
 			});
@@ -144,7 +142,7 @@ var exports = module.exports = __gigo = (function() {
 			if (typeof(list) === 'undefined') return false;
 			if (typeof(value) === 'undefined') return false;
 			var data = new $classes.Data($data.prefix.data+key, value);
-			$redis.lpush($data.prefix.data+list, JSON.stringify(data), function(err, result) {
+			$redis.lpush($group+list, JSON.stringify(data), function(err, result) {
 				return typeof(callback) === 'function' ? err ? callback(err) : callback(null, true) : true;
 			});
 			return true;
