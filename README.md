@@ -127,6 +127,21 @@ file("logo.jpg", function( data ) {
 
 ```
 
+###tests
+
+gigo uses mocha and chai:
+
+```sh
+npm test
+```
+
+###contributors
+
+contributions to gigo are welcome. however, changes which are mostly stylistic 
+or semantic will not be accepted. if you submit a patch or pull request, please 
+understand that accepting the changes may take time, at least until science 
+invents 96-hour days.
+
 ###license
 
 licensed under gpl v3
