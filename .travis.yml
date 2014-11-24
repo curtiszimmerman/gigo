@@ -14,5 +14,4 @@ notifications:
       - "build detalis: %{build_url}"
     channels:
       - "irc.freenode.net#sulfurworks"
-      - "irc.freenode.net#mediamoat"
       - "irc.freenode.net#mediamoat-dev"
