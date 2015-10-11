@@ -9,6 +9,19 @@
  * @version 0.0.2a
  */
 
+/**
+
+ GIGO examples:
+ // defaults to localhost:6379
+ var gigo = require('gigo');
+ gigo.
+
+
+ gigo.set('foo');
+
+ gigo.create()
+ */
+
 /*jshint -W110 */
 var exports = module.exports = __gigo = (function() {
 	"use strict";

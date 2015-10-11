@@ -12,7 +12,7 @@
 var expect = require('chai').expect;
 var gigo = require('../gigo.js');
 
-describe( 'gigo', function() {
+describe ('gigo: garbage-in, garbage-out: soviet-style storage', function() {
 	describe ('#set', function() {
 		it ('executes callback with boolean success', function() {
 			gigo.set('foo', 'bar', function(err, result) {
